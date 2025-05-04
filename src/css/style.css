@@ -1,0 +1,261 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    overflow: hidden;
+    background-color: #000;
+    color: #fff;
+}
+
+
+#canvas-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    transition: opacity 0.5s ease-in-out;
+}
+
+#loading-screen::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        transparent 0px,
+        rgba(0, 0, 0, 0.1) 1px,
+        transparent 2px
+    );
+    pointer-events: none;
+    opacity: 0.4;
+    animation: scanlines 8s linear infinite;
+}
+
+#loading-container {
+    width: 90%;
+    max-width: 800px;
+    text-align: center;
+    position: relative;
+}
+
+#loading-title {
+    margin-bottom: 30px;
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+    text-transform: uppercase;
+    position: relative;
+    color: #00ff9d;
+    font-size: 1rem;
+    white-space: pre;
+    letter-spacing: 0;
+    overflow: hidden;
+    filter: drop-shadow(0 0 1px rgba(0, 255, 255, 0.8));
+    text-shadow: 
+        0 0 5px rgba(0, 255, 157, 0.8),
+        0 0 10px rgba(0, 255, 157, 0.4);
+}
+
+.glitch-text {
+    position: relative;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.9;
+}
+
+.glitch-text::before {
+    color: #f0f;
+    z-index: -2;
+    transform: translateX(-2px);
+    animation: glitch-effect 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite both;
+}
+
+.glitch-text::after {
+    color: #0ff;
+    z-index: -1;
+    transform: translateX(2px);
+    animation: glitch-effect 3s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite reverse both;
+}
+
+.glitch-char {
+    display: inline-block;
+    position: relative;
+    animation: flicker 0.3s ease-in-out infinite alternate;
+}
+
+@keyframes glitch-effect {
+    0% {
+        transform: translateX(-2px) skew(0deg);
+    }
+    10% {
+        transform: translateX(2px) skew(0deg);
+    }
+    20% {
+        transform: translateX(-1px) skew(0deg);
+    }
+    30% {
+        transform: translateX(1px) skew(-5deg);
+    }
+    40% {
+        transform: translate(-1px, 1px) skew(5deg);
+    }
+    50% {
+        transform: translate(1px, -1px) skew(0deg);
+    }
+    60% {
+        transform: translateX(-2px) skew(5deg);
+    }
+    70% {
+        transform: translateX(1px) skew(-5deg);
+    }
+    80% {
+        transform: translate(-1px, 0) skew(0deg);
+    }
+    90% {
+        transform: translate(1px, 0) skew(-5deg);
+    }
+    100% {
+        transform: translateX(-2px) skew(5deg);
+    }
+}
+
+@keyframes flicker {
+    0%, 100% { opacity: 1; }
+    28% { opacity: 1; }
+    30% { opacity: 0.8; }
+    32% { opacity: 1; }
+    65% { opacity: 1; }
+    70% { opacity: 0.9; }
+    72% { opacity: 1; }
+}
+
+@keyframes scanlines {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 0 100%;
+    }
+}
+
+@keyframes horizontal-movement {
+    0% {
+        transform: translateX(0);
+    }
+    5% {
+        transform: translateX(-5px);
+    }
+    10% {
+        transform: translateX(5px);
+    }
+    15% {
+        transform: translateX(-5px);
+    }
+    20% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.horizontal-glitch {
+    animation: horizontal-movement 10s ease-in-out infinite;
+}
+
+#loading-message {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin-bottom: 30px;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 1px;
+    animation: flicker 2s infinite alternate;
+}
+
+#artwork-info {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 300px;
+    transition: opacity 0.5s ease;
+}
+
+.artwork-title {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.artwork-year {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin-bottom: 10px;
+}
+
+.artwork-description {
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+#controls-info {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    text-align: right;
+}
+
+.control-text {
+    margin: 5px 0;
+}
+
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Media query for larger screens to make figlet text readable */
+@media (min-width: 768px) {
+    #loading-title {
+        font-size: 1.2rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    #loading-title {
+        font-size: 1.4rem;
+    }
+}
